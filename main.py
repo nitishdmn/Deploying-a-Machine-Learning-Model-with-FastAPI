@@ -3,7 +3,7 @@ from pathlib import Path
 import pickle
 
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from pydantic import BaseModel, ConfigDict, Field
 
 from starter.ml.data import process_data
@@ -71,6 +71,12 @@ def load_artifacts():
 def read_root() -> dict[str, str]:
     """Return a welcome message."""
     return {"message": "Welcome to the Census Income Classifier API."}
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon() -> Response:
+    """Acknowledge browsers’ automatic favicon request without an error."""
+    return Response(status_code=204)
 
 
 @app.post("/predict")

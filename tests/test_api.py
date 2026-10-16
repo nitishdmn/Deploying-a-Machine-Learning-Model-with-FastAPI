@@ -42,3 +42,9 @@ def test_post_returns_over_50k_prediction():
     response = client.post("/predict", json=_example_for(1))
     assert response.status_code == 200
     assert response.json() == {"prediction": ">50K"}
+
+
+def test_favicon_request_is_handled_without_not_found():
+    response = client.get("/favicon.ico")
+    assert response.status_code == 204
+    assert response.content == b""
