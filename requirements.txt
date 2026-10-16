@@ -1,4 +1,4 @@
-# Exact versions from working .venv for Python 3.13
+# Versions tested with the project environment on Python 3.12
 # Generated from pip freeze - September 2025
 
 # Web framework and server
