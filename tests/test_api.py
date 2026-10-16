@@ -13,7 +13,9 @@ client = TestClient(app)
 def test_get_root_status_and_body():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the Census Income Classifier API."}
+    assert response.json() == {
+        "message": "Welcome to the Census Income Classifier API."
+    }
 
 
 def _example_for(prediction):

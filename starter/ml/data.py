@@ -3,7 +3,8 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
 def process_data(
-    X, categorical_features=None, label=None, training=True, encoder=None, lb=None
+    X, categorical_features=None, label=None, training=True,
+    encoder=None, lb=None
 ):
     """Encode categoricals and labels for training or inference."""
     categorical_features = categorical_features or []
@@ -29,9 +30,14 @@ def process_data(
         X_categorical = encoder.transform(X_categorical)
         if y is not None:
             if lb is None:
-                raise ValueError("A fitted label binarizer is required for labels.")
+                raise ValueError(
+                    "A fitted label binarizer is required for labels."
+                )
             y = lb.transform(y).ravel()
         else:
             y = np.array([])
 
-    return np.concatenate([X_continuous, X_categorical], axis=1), y, encoder, lb
+    return (
+        np.concatenate([X_continuous, X_categorical], axis=1),
+        y, encoder, lb,
+    )

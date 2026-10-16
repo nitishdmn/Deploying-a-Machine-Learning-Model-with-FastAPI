@@ -34,12 +34,22 @@ def main():
     )
     model = train_model(X_train, y_train)
     MODEL_DIR.mkdir(exist_ok=True)
-    for name, artifact in (("model.pkl", model), ("encoder.pkl", encoder), ("label_binarizer.pkl", lb)):
+    artifacts = (
+        ("model.pkl", model),
+        ("encoder.pkl", encoder),
+        ("label_binarizer.pkl", lb),
+    )
+    for name, artifact in artifacts:
         with (MODEL_DIR / name).open("wb") as file:
             pickle.dump(artifact, file)
 
-    precision, recall, f1 = compute_model_metrics(y_test, inference(model, X_test))
-    print(f"Test metrics: precision={precision:.4f}, recall={recall:.4f}, f1={f1:.4f}")
+    precision, recall, f1 = compute_model_metrics(
+        y_test, inference(model, X_test)
+    )
+    print(
+        f"Test metrics: precision={precision:.4f}, "
+        f"recall={recall:.4f}, f1={f1:.4f}"
+    )
     lines = ["Slice metrics by education", "education,precision,recall,f1"]
     for value in sorted(data["education"].unique()):
         subset = test[test["education"] == value]
