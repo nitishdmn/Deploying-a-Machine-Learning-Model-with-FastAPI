@@ -3,6 +3,7 @@ import pandas as pd
 
 from starter.ml.data import process_data
 from starter.ml.model import compute_model_metrics, inference, train_model
+from starter.train_model import compute_slice_metrics
 
 
 CATEGORICAL = ["kind"]
@@ -32,3 +33,23 @@ def test_compute_model_metrics_returns_precision_recall_f1():
         np.array([0, 1, 1]), np.array([0, 1, 0])
     )
     assert metrics == (1.0, 0.5, 2 / 3)
+
+
+def test_compute_slice_metrics_returns_each_feature_value():
+    frame = pd.DataFrame({
+        "value": [1, 2, 3, 4],
+        "kind": ["a", "a", "b", "b"],
+        "label": [0, 1, 0, 1],
+    })
+    features, labels, encoder, lb = process_data(
+        frame, CATEGORICAL, "label", training=True
+    )
+    model = train_model(features, labels)
+
+    slices = compute_slice_metrics(
+        frame, model, encoder, lb, CATEGORICAL,
+        feature="kind", label="label",
+    )
+
+    assert [row[0] for row in slices] == ["a", "b"]
+    assert all(len(row) == 4 for row in slices)

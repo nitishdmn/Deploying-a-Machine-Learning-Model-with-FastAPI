@@ -3,7 +3,11 @@ import os
 import requests
 
 
-API_URL = os.environ.get("API_URL", "https://YOUR-RENDER-SERVICE.onrender.com")
+API_URL = os.environ.get(
+    "API_URL",
+    "https://deploying-a-machine-learning-model-with-"
+    "diz6.onrender.com",
+)
 EXAMPLE = {
     "age": 39, "workclass": "State-gov", "fnlgt": 77516,
     "education": "Bachelors", "education-num": 13,
